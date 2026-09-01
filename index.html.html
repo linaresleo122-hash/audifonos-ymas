@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AudioStore - Audífonos Premium</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #FF007A 0%, #7E00FF 100%);
+            --secondary-gradient: linear-gradient(135deg, #00F2FE 0%, #4FACFE 100%);
+            --accent-green: linear-gradient(135deg, #00F5A0 0%, #00D9F5 100%);
+            --accent-orange: linear-gradient(135deg, #FF512F 0%, #DD2476 100%);
+            --card-bg: rgba(255, 255, 255, 0.88);
+            --text-main: #1f1b2d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 0, 122, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 242, 254, 0.25) 0%, transparent 40%),
+                url('https://pixabay.com/es/images/download/1117826-background-1086840_1920.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: var(--text-main);
+            padding: 30px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* HEADER VIVO Y MODERNO */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(126, 0, 255, 0.2);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #555;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* BANNER DE VALORACIÓN */
+        .rating-seccion {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px 25px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0, 242, 254, 0.25);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 2px solid #00F2FE;
+        }
+
+        .rating-info h3 {
+            font-size: 1.2rem;
+            color: #2a085c;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .rating-info p {
+            font-size: 0.95rem;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .rating-info strong {
+            color: #ff007a;
+            font-size: 1.1rem;
+        }
+
+        .estrellas {
+            display: flex;
+            gap: 6px;
+            direction: rtl;
+        }
+
+        .estrellas input {
+            display: none;
+        }
+
+        .estrellas label {
+            font-size: 2rem;
+            color: #e0e0e0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .estrellas label:hover,
+        .estrellas label:hover ~ label,
+        .estrellas input:checked ~ label {
+            color: #FFB800;
+            text-shadow: 0 0 10px rgba(255, 184, 0, 0.6);
+            transform: scale(1.15);
+        }
+
+        .btn-calificar {
+            background: linear-gradient(135deg, #FFB800 0%, #FF8A00 100%);
+            color: white;
+            padding: 10px 22px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 138, 0, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-calificar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 138, 0, 0.6);
+        }
+
+        /* PANEL AGREGAR PRODUCTO */
+        .panel-control {
+            background: rgba(255, 255, 255, 0.92);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 0, 122, 0.15);
+            margin-bottom: 35px;
+            backdrop-filter: blur(10px);
+            border: 2px solid #FF007A;
+        }
+
+        .panel-control h2 {
+            font-size: 1.3rem;
+            margin-bottom: 18px;
+            color: #2a085c;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-inline {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .form-inline input {
+            flex: 1;
+            min-width: 180px;
+            padding: 12px 15px;
+            border: 2px solid #e1e8f0;
+            border-radius: 10px;
+            outline: none;
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-inline input:focus {
+            border-color: #7E00FF;
+            box-shadow: 0 0 8px rgba(126, 0, 255, 0.2);
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 20px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .btn-add {
+            background: var(--accent-green);
+            color: #033623;
+            box-shadow: 0 4px 15px rgba(0, 245, 160, 0.4);
+        }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 245, 160, 0.6);
+        }
+
+        /* GRID DE PRODUCTOS */
+        .grid-productos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(126, 0, 255, 0.25);
+        }
+
+        .card-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary-gradient);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            box-shadow: 0 2px 8px rgba(255, 0, 122, 0.4);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 14px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            color: #1f1b2d;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .precio-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(126, 0, 255, 0.06);
+            padding: 10px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .precio-container span {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: #7E00FF;
+        }
+
+        .precio-container input {
+            width: 90px;
+            padding: 6px 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            border: 2px solid #dcd0ff;
+            border-radius: 8px;
+            outline: none;
+            color: #2a085c;
+        }
+
+        .precio-container input:focus {
+            border-color: #7E00FF;
+        }
+
+        .btn-precio {
+            background: var(--secondary-gradient);
+            color: white;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            box-shadow: 0 3px 10px rgba(79, 172, 254, 0.4);
+        }
+
+        .btn-precio:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 12px rgba(79, 172, 254, 0.6);
+        }
+
+        .btn-delete {
+            background: var(--accent-orange);
+            color: white;
+            width: 100%;
+            padding: 12px;
+            box-shadow: 0 4px 15px rgba(237, 44, 102, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-delete:hover {
+            box-shadow: 0 6px 20px rgba(237, 44, 102, 0.5);
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- HEADER ENERGÉTICO -->
+        <header>
+            <h1><i class="fa-solid fa-headphones-simple"></i> AudioStore</h1>
+            <p>Catálogo Interactivo de Audífonos de Alta Gama</p>
+        </header>
+
+        <!-- VALORACIÓN VIVA CON ESTRELLAS -->
+        <div class="rating-seccion">
+            <div class="rating-info">
+                <h3><i class="fa-solid fa-star" style="color: #FFB800;"></i> ¿Qué tal te parece nuestra tienda?</h3>
+                <p id="promedio-texto">Promedio de valoración: <strong>5.0 / 5</strong> (1 voto)</p>
+            </div>
+            <form id="form-rating" style="display: flex; align-items: center; gap: 12px;">
+                <div class="estrellas">
+                    <input type="radio" id="star5" name="calificacion" value="5" required><label for="star5">★</label>
+                    <input type="radio" id="star4" name="calificacion" value="4"><label for="star4">★</label>
+                    <input type="radio" id="star3" name="calificacion" value="3"><label for="star3">★</label>
+                    <input type="radio" id="star2" name="calificacion" value="2"><label for="star2">★</label>
+                    <input type="radio" id="star1" name="calificacion" value="1"><label for="star1">★</label>
+                </div>
+                <button type="submit" class="btn-calificar">Calificar</button>
+            </form>
+        </div>
+
+        <!-- PANEL DE AGREGAR PRODUCTOS -->
+        <div class="panel-control">
+            <h2><i class="fa-solid fa-plus-circle" style="color: #FF007A;"></i> Agregar Nuevo Producto</h2>
+            <form id="form-producto" class="form-inline">
+                <input type="text" id="nombre" placeholder="Nombre del producto" required>
+                <input type="number" id="precio" placeholder="Precio ($)" step="0.01" required>
+                <input type="url" id="imagen" placeholder="URL de la imagen" required>
+                <button type="submit" class="btn-add"><i class="fa-solid fa-check"></i> Agregar</button>
+            </form>
+        </div>
+
+        <!-- REJILLA DE PRODUCTOS -->
+        <div class="grid-productos" id="contenedor-productos"></div>
+    </div>
+
+    <script>
+        // Productos por defecto con imágenes vívidas
+        let productos = [
+            { id: 1, nombre: 'Audífonos Bluetooth Neon', precio: 59.99, imagen: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500' },
+            { id: 2, nombre: 'Audífonos Gaming RGB Pro', precio: 89.99, imagen: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=500' },
+            { id: 3, nombre: 'Audífonos Inalámbricos Sport', precio: 34.50, imagen: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500' }
+        ];
+
+        let evaluaciones = [5];
+
+        const contenedor = document.getElementById('contenedor-productos');
+        const formularioProducto = document.getElementById('form-producto');
+        const formularioRating = document.getElementById('form-rating');
+        const promedioTexto = document.getElementById('promedio-texto');
+
+        function renderizarProductos() {
+            contenedor.innerHTML = '';
+            productos.forEach(producto => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <span class="card-tag">Nuevo</span>
+                    <div>
+                        <img src="${producto.imagen}" alt="${producto.nombre}">
+                        <h3>${producto.nombre}</h3>
+                        <div class="precio-container">
+                            <span>$</span>
+                            <input type="number" step="0.01" value="${producto.precio}" id="precio-${producto.id}">
+                            <button class="btn-precio" onclick="cambiarPrecio(${producto.id})"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+                        </div>
+                    </div>
+                    <button class="btn-delete" onclick="eliminarProducto(${producto.id})"><i class="fa-solid fa-trash-can"></i> Eliminar</button>
+                `;
+                contenedor.appendChild(card);
+            });
+        }
+
+        function actualizarPromedio() {
+            const suma = evaluaciones.reduce((acc, val) => acc + val, 0);
+            const promedio = (suma / evaluaciones.length).toFixed(1);
+            promedioTexto.innerHTML = `Promedio de valoración: <strong>${promedio} / 5</strong> (${evaluaciones.length} ${evaluaciones.length === 1 ? 'voto' : 'votos'})`;
+        }
+
+        formularioProducto.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nombre = document.getElementById('nombre').value;
+            const precio = parseFloat(document.getElementById('precio').value);
+            const imagen = document.getElementById('imagen').value;
+
+            productos.push({
+                id: Date.now(),
+                nombre,
+                precio,
+                imagen
+            });
+
+            renderizarProductos();
+            formularioProducto.reset();
+        });
+
+        formularioRating.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const opcionSeleccionada = document.querySelector('input[name="calificacion"]:checked');
+
+            if (opcionSeleccionada) {
+                const valor = parseInt(opcionSeleccionada.value);
+                evaluaciones.push(valor);
+                actualizarPromedio();
+                alert(`¡Gracias por tu valoración de ${valor} estrellas!`);
+                formularioRating.reset();
+            }
+        });
+
+        function cambiarPrecio(id) {
+            const nuevoPrecioInput = document.getElementById(`precio-${id}`);
+            const nuevoPrecio = parseFloat(nuevoPrecioInput.value);
+
+            if (!isNaN(nuevoPrecio) && nuevoPrecio >= 0) {
+                productos = productos.map(p => p.id === id ? { ...p, precio: nuevoPrecio } : p);
+                alert('Precio actualizado correctamente');
+                renderizarProductos();
+            } else {
+                alert('Ingresa un precio válido');
+            }
+        }
+
+        function eliminarProducto(id) {
+            productos = productos.filter(p => p.id !== id);
+            renderizarProductos();
+        }
+
+        renderizarProductos();
+    </script>
+</body>
+</html>
